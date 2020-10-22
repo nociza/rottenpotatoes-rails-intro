@@ -10,14 +10,23 @@
   <% end %>
   <%= submit_tag 'Refresh', id: 'ratings_submit', class: 'btn btn-primary' %>
 <% end %>
+
 <%#  Part 2: Start here... %>
 
 <table class="table table-striped col-md-12" id="movies">
   <thead>
     <tr>
-      <th>Movie Title</th>
+      <th>
+        <a class="hilite text-primary" id="title_header">
+          <%= link_to "Movie Title", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_title"=>"1"))%>
+        </a>
+      </th>
       <th>Rating</th>
-      <th>Release Date</th>
+      <th>
+        <a class="hilite text-primary" id="release_date_header">
+          <%= link_to "Release Date", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_date"=>"1"))%>
+        </a>
+      </th>
       <th>More Info</th>
     </tr>
   </thead>
