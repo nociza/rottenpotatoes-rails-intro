@@ -7,28 +7,49 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @ratings_to_show = []
+    if session[:ratings] != nil
+      @ratings_to_show = session[:ratings]
+    else
+      @ratings_to_show = []
+    end 
+    @all_ratings = Movie.all_ratings
     if params[:sort_by_title] != nil
+      session[:sort_by_title] = 1
+      session[:sort_by_date] = nil
       if params[:ratings] == nil
         @movies = Movie.names_sort
       else
         @movies = Movie.names_sort_filtered(params[:ratings])
         @ratings_to_show = params[:ratings]
+        session[:ratings] = params[:ratings]
       end
     elsif params[:sort_by_date] != nil
+      session[:sort_by_title] = nil
+      session[:sort_by_date] = 1
       if params[:ratings] == nil
         @movies = Movie.dates_sort
       else
         @movies = Movie.dates_sort_filtered(params[:ratings])
         @ratings_to_show = params[:ratings]
+        session[:ratings] = params[:ratings]
       end
     elsif params[:ratings] == nil
-      @movies = Movie.all
+      if session[:ratings] != nil
+        if session[:sort_by_title] != nil
+          @movies = Movie.names_sort_filtered(session[:ratings])
+        elsif session[:sort_by_date] != nil
+          @movies = Movie.dates_sort_filtered(session[:ratings])
+        else
+          @movies = Movie.with_ratings(session[:ratings])
+        end
+      else 
+        @movies = Movie.all
+      end 
     else
       @movies = Movie.with_ratings(params[:ratings].keys)
       @ratings_to_show = params[:ratings].keys
-    end 
-    @all_ratings = Movie.all_ratings
+      session[:ratings] = params[:ratings].keys
+    end
   end
 
   def new
