@@ -17,15 +17,11 @@
   <thead>
     <tr>
       <th>
-        <a class="hilite text-primary" id="title_header">
-          <%= link_to "Movie Title", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_title"=>"1"))%>
-        </a>
+        <%= link_to "Movie Title", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_title"=>"1")), class: (@sorted == :title ? 'hilite mw-100 mh-100 bg-warning text-primary' : 'text-primary'), id:"title_header"%>
       </th>
       <th>Rating</th>
       <th>
-        <a class="hilite text-primary" id="release_date_header">
-          <%= link_to "Release Date", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_date"=>"1"))%>
-        </a>
+        <%= link_to "Release Date", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_date"=>"1")), class: (@sorted == :date ? 'hilite mw-100 mh-100 bg-warning text-primary' : 'text-primary'), id:"release_date_header"%>
       </th>
       <th>More Info</th>
     </tr>
