@@ -19,9 +19,9 @@ class MoviesController < ApplicationController
     if (session[:ratings] != nil && params[:ratings] == nil) || (session[:sorted] != nil && params[:sort_by_title] == nil && params[:sort_by_date] == nil)
       if session[:sorted] == nil
         redirect_to movies_path("ratings"=>session[:ratings])
-      elsif session[:sorted] == :title
+      elsif session[:sorted].to_s == "title"
         redirect_to movies_path("ratings"=>session[:ratings], "sort_by_title"=>"1")
-      else
+      elsif session[:sorted].to_s == "date"
         redirect_to movies_path("ratings"=>session[:ratings], "sort_by_date"=>"1")
       end 
     end 
