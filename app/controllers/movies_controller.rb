@@ -8,12 +8,23 @@ class MoviesController < ApplicationController
 
   def index
     @sorted = session[:sorted]
-    if session[:ratings] != nil
-      @ratings_to_show = session[:ratings]
-    else
-      @ratings_to_show = ['G','PG','PG-13','R']
-    end 
     @all_ratings = Movie.all_ratings
+    @ratings_to_show = session[:ratings] != nil ? session[:ratings] : ['G','PG','PG-13','R']
+    session[:ratings] = params[:ratings] unless params[:ratings].nil?
+    if params[:sort_by_title] != nil
+      session[:sorted] = :title
+    elsif params[:sort_by_date] != nil
+      session[:sorted] = :date
+    end
+    if (session[:ratings] != nil && params[:ratings] == nil) || (session[:sorted] != nil && params[:sort_by_title] == nil && params[:sort_by_date] == nil)
+      if session[:sorted] == nil
+        redirect_to movies_path("ratings"=>session[:ratings])
+      elsif session[:sorted] == :title
+        redirect_to movies_path("ratings"=>session[:ratings], "sort_by_title"=>"1")
+      else
+        redirect_to movies_path("ratings"=>session[:ratings], "sort_by_date"=>"1")
+      end 
+    end 
     if params[:sort_by_title] != nil
       session[:sort_by_title] = 1
       session[:sort_by_date] = nil

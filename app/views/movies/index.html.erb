@@ -17,11 +17,11 @@
   <thead>
     <tr>
       <th class="<%= @sorted == :title ? 'hilite bg-warning text-primary' : 'text-primary'%>">
-        <%= link_to "Movie Title", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_title"=>"1")), id:"title_header"%>
+        <%= link_to "Movie Title", movies_path("ratings"=>@ratings_to_show, "sort_by_title"=>"1"), id:"title_header"%>
       </th>
       <th>Rating</th>
       <th class="<%= @sorted == :date ? 'hilite bg-warning text-primary' : 'text-primary'%>">
-        <%= link_to "Release Date", movies_path(Hash[{"ratings"=>@ratings_to_show}].merge("sort_by_date"=>"1")), id:"release_date_header"%>
+        <%= link_to "Release Date", movies_path("ratings"=>@ratings_to_show, "sort_by_date"=>"1"), id:"release_date_header"%>
       </th>
       <th>More Info</th>
     </tr>
